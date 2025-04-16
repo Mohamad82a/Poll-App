@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,3 +134,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "minty",
+}
+
+JAZZMIN_SETTINGS = {
+    # Links to put along the top menu
+    "topmenu_links": [
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Back to Site", "url": "/", "permissions": ["auth.view_user"]},
+    ],
+
+    # 'site_logo': "",
+    "welcome_sign": "Login, Admin!",
+    'site_header': "PollMe",
+    'site_brand': "PollMe",
+    'copyright': "PollMe",
+    "show_sidebar": True,
+}

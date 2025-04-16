@@ -12,11 +12,37 @@ class Poll(models.Model):
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # def user_can_vote(self, user):
-    #     """
-    #     Returns False if the user already voted, True otherwise.
-    #     """
-    #
+    def user_can_vote(self, user):
+        """
+        Returns False if the user already voted, True otherwise.
+        """
+        user_votes = user.vote_set.all()
+        qs = user_votes.filter(poll=self)
+        if qs.exists():
+            return False
+        return True
+
+    @property
+    def get_vote_count(self):
+        return self.vote_set.count()
+
+    def get_result_dict(self):
+        result = []
+        for choice in self.pollchoices_set.all():
+            dict = {}
+            alert_class = ['primary', 'secondary', 'success', 'danger', 'dark', 'warning', 'info']
+
+            dict['alert_class'] = secrets.choice(alert_class)
+            dict['text'] = choice.choice_text
+            dict['number_of_votes'] = choice.get_vote_count
+            if not self.get_vote_count:
+                dict['percentage'] = 0
+            else:
+                dict['percentage'] = (choice.get_vote_count / self.get_vote_count) * 100
+
+            result.append(dict)
+        return result
+
 
 class PollChoices(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
@@ -24,9 +50,12 @@ class PollChoices(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # @property
-    # def vote_count(self):
-    #     return self.vo
+    @property
+    def get_vote_count(self):
+        return self.vote_set.count()
+
+    def __str__(self):
+        return f'{self.poll.title} - {self.choice_text[:15]}'
 
 
 
