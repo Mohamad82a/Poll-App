@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'polls.apps.PollsConfig',
 
+    'tinymce',
+
 
 ]
 
