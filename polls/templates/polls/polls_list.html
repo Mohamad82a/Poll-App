@@ -37,14 +37,14 @@
 
             <ul class="list-group">
                 {% for poll in polls %}
-                <li class="list-group-item"><a href="">{{ poll.title|safe }}
+                <li class="list-group-item"><a href="{% url 'polls:detail_poll' poll.id %}">{{ poll.title }}
                         {% if not poll.active%}
                         <i class="fas fa-check-circle ml-2"></i>
                         {% endif %}
                     </a>
                     {% if request.user == poll.owner %}
                     {% if poll.active %}
-                    <a href="" data-toggle="tooltip" data-placement="top" title="End Poll"
+                    <a href="{% url 'polls:end_poll' poll.id %}" data-toggle="tooltip" data-placement="top" title="End Poll"
                         onclick="return confirm('Are you sure ?')"><i class="fas fa-step-forward float-right btn btn-danger btn-sm"></i></a>
                     {% endif %}
                     <a href="{% url 'polls:edit_poll' poll.id %}" class="mr-3" data-toggle="tooltip" data-placement="top"

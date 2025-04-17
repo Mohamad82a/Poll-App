@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
 
     'tinymce',
+    'widget_tweaks',
 
 
 ]

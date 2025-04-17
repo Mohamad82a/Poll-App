@@ -7,14 +7,14 @@ from tinymce.models import HTMLField
 
 class Poll(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = HTMLField()
+    title = models.TextField()
     publish_date = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def user_can_vote(self, user):
         """
-        Returns False if the user already voted, True otherwise.
+        Returns False if user already voted, True otherwise.
         """
         user_votes = user.vote_set.all()
         qs = user_votes.filter(poll=self)
@@ -23,7 +23,7 @@ class Poll(models.Model):
         return True
 
     @property
-    def get_vote_count(self):
+    def get_all_vote_count(self):
         return self.vote_set.count()
 
     def get_result_dict(self):
@@ -34,11 +34,11 @@ class Poll(models.Model):
 
             dict['alert_class'] = secrets.choice(alert_class)
             dict['text'] = choice.choice_text
-            dict['number_of_votes'] = choice.get_vote_count
-            if not self.get_vote_count:
+            dict['number_of_votes'] = choice.get_vote_count_for_a_choice
+            if not self.get_all_vote_count:
                 dict['percentage'] = 0
             else:
-                dict['percentage'] = (choice.get_vote_count / self.get_vote_count) * 100
+                dict['percentage'] = (choice.get_vote_count_for_a_choice / self.get_all_vote_count) * 100
 
             result.append(dict)
         return result
@@ -51,7 +51,7 @@ class PollChoices(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     @property
-    def get_vote_count(self):
+    def get_vote_count_for_a_choice(self):
         return self.vote_set.count()
 
     def __str__(self):
