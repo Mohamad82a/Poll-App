@@ -25,7 +25,7 @@
 {#            <a class="btn btn-{% if 'vote' in request.GET %}warning{% else %}primary{% endif %} mb-3" href="?vote=True"#}
 {#                role="button"><i class="fas fa-poll"></i> Vote</a>#}
 
-            <a class="btn btn-primary mb-3 float-right" href="" role="button">Add <i class="fas fa-plus"></i></a>
+            <a class="btn btn-primary mb-3 float-right" href="{% url 'polls:add_poll' %}" role="button">Add <i class="fas fa-plus"></i></a>
 
             <form class="form-inline">
                 <div class="form-group mr-sm-2 mb-2">
@@ -47,7 +47,7 @@
                     <a href="" data-toggle="tooltip" data-placement="top" title="End Poll"
                         onclick="return confirm('Are you sure ?')"><i class="fas fa-step-forward float-right btn btn-danger btn-sm"></i></a>
                     {% endif %}
-                    <a href="" class="mr-3" data-toggle="tooltip" data-placement="top"
+                    <a href="{% url 'polls:edit_poll' poll.id %}" class="mr-3" data-toggle="tooltip" data-placement="top"
                         title="Edit Poll"><i class="fas fa-pencil-alt float-right btn btn-primary btn-sm mr-1"></i></a>
                     {% endif %}
                 </li>
