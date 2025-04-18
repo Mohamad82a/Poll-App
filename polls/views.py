@@ -5,20 +5,29 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from .forms import PollAddForm, PollEditForm, PollChoiceAddForm
 from .models import *
-
+from django.db.models import Q
 def polls_list(request):
     polls = Poll.objects.all()
+    search_term = ''
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        polls = Poll.objects.filter(
+            Q(title__icontains=search_term)
+        )
+        # if polls == '':
+        #     messages.error(request, 'No results found', extra_tags='alert alert-warning alert-dismissible fade show')
+        #
 
-    paginator = Paginator(polls, 2)
+    paginator = Paginator(polls, 3)
     page = request.GET.get('page')
     paginated_polls = paginator.get_page(page)
 
-    return render(request, 'polls/polls_list.html', {'polls': paginated_polls})
+    return render(request, 'polls/polls_list.html', {'polls': paginated_polls, 'search_term': search_term})
 
 @login_required()
 def user_polls_list(request):
     polls = Poll.objects.filter(owner=request.user)
-    paginator = Paginator(polls, 2)
+    paginator = Paginator(polls, 3)
     page = request.GET.get('page')
     paginated_polls = paginator.get_page(page)
 

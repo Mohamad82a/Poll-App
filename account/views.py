@@ -2,8 +2,13 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserRegistrationForm
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
+from .forms import UserRegistrationForm
+from .serializers import UserSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 # def register_user(request):
 #     if request.method == 'POST':
@@ -71,3 +76,22 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+class UserView(APIView):
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(instance=user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
