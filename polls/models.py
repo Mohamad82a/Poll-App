@@ -10,7 +10,7 @@ class Poll(models.Model):
     title = models.TextField()
     publish_date = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     def user_can_vote(self, user):
         """

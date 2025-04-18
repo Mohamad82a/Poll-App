@@ -28,7 +28,7 @@ urlpatterns = [
        path('', views.HomePageView.as_view(), name='home'),
        path('account/', include('account.urls')),
        path('polls/', include('polls.urls')),
-       path('api/', include('poll_api.urls')),
+       path('poll_api/', include('poll_api.urls')),
 
 ]
 
