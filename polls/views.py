@@ -129,10 +129,10 @@ def choice_delete(request, choice_id):
 
 def poll_detail(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
-    user_voted_poll = get_object_or_404(Vote, poll=poll, user=request.user)
+    # user_voted_poll = get_object_or_404(Vote, poll=poll, user=request.user)
 
     if not poll.active:
-        return render(request, 'polls/poll_result.html', {'poll': poll, 'user_voted_poll': user_voted_poll})
+        return render(request, 'polls/poll_result.html', {'poll': poll,})
     loop_count = poll.pollchoices_set.count()
     return render(request, 'polls/poll_detail.html', {'poll': poll, 'loop_time': range(0, loop_count)})
 

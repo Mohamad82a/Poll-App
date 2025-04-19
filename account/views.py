@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
 
 from .forms import UserRegistrationForm
@@ -80,6 +81,7 @@ def logout_user(request):
 
 class UserView(APIView):
     serializer_class = UserSerializer
+    parser_classes = (MultiPartParser, JSONParser)
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 
 from polls.models import Poll
@@ -33,6 +34,7 @@ class PollDetailView(APIView):
 
 class PollEditView(APIView):
     serializer_class = PollSerializers
+    parser_classes = (MultiPartParser,)
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
     def get_object(self, pk):
@@ -47,3 +49,7 @@ class PollEditView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
