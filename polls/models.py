@@ -28,7 +28,7 @@ class Poll(models.Model):
 
     def get_result_dict(self):
         result = []
-        for choice in self.pollchoices_set.all():
+        for choice in self.choices.all():
             dict = {}
             alert_class = ['primary', 'secondary', 'success', 'danger', 'dark', 'warning', 'info']
 

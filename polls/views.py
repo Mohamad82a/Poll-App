@@ -133,7 +133,7 @@ def poll_detail(request, poll_id):
 
     if not poll.active:
         return render(request, 'polls/poll_result.html', {'poll': poll,})
-    loop_count = poll.pollchoices_set.count()
+    loop_count = poll.choices.count()
     return render(request, 'polls/poll_detail.html', {'poll': poll, 'loop_time': range(0, loop_count)})
 
 
