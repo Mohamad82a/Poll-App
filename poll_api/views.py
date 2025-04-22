@@ -4,7 +4,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 
 from polls.models import Poll
-from .serializers import PollSerializers
+from .serializers import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
@@ -89,4 +89,3 @@ class PollDeleteView(APIView):
         poll = self.get_object(pk)
         poll.delete()
         return Response({'response': 'Poll has been deleted successfully'} ,status=status.HTTP_200_OK)
-
