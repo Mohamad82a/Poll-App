@@ -89,3 +89,4 @@ class PollDeleteView(APIView):
         poll = self.get_object(pk)
         poll.delete()
         return Response({'response': 'Poll has been deleted successfully'} ,status=status.HTTP_200_OK)
+

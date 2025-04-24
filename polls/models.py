@@ -24,7 +24,7 @@ class Poll(models.Model):
 
     @property
     def get_all_vote_count(self):
-        return self.vote_set.count()
+        return self.votes.count()
 
     def get_result_dict(self):
         result = []
@@ -53,6 +53,9 @@ class PollChoices(models.Model):
     @property
     def get_vote_count_for_a_choice(self):
         return self.vote_set.count()
+    @property
+    def percentage(self):
+        return  (self.get_vote_count_for_a_choice / self.poll.get_all_vote_count) * 100
 
     def __str__(self):
         return f'{self.poll.title} - {self.choice_text[:15]}'

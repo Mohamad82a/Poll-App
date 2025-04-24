@@ -6,7 +6,7 @@ from polls.models import Poll, PollChoices, Vote
 class ChoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = PollChoices
-        fields = ['id','choice_text']
+        fields = ['id','choice_text', 'percentage']
         extra_kwargs = {
             'id': {'required': False},
         }
